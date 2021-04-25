@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-const config = require("../config.js");
+const config = require("../../config.js");
+import { Toast } from 'vant';
+import store from '../store/index'
 
 /**
  * 前后端code约定（以及通用约定code）
@@ -11,7 +13,6 @@ const config = require("../config.js");
  *   @params msg  { string }  接口描述信息
  * }
  */
-
 const $axios = axios.create({
   // 设置超时时间
   timeout: 30000,
@@ -25,24 +26,26 @@ $axios.defaults.headers['token'] = localStorage.getItem('token') || ''
 $axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // 请求拦截
-axios.interceptors.request.use(
-  (config) => { 
+$axios.interceptors.request.use(
+  (config) => {
+    store.commit('showLoading')
     // 可在这里做一些数据的校验。
     // session的校验等。
     return config 
   },
   (error) => { 
+    store.commit('hideLoading ')
     return error 
   }
 )
 
 // 响应拦截
-axios.interceptors.response.use((result) => {
+$axios.interceptors.response.use((result) => {
   // ===========================================================
+  store.commit('hideLoading')
   // 返回方式一
-  console.log(result);
   if (`${result.status}` === '200') {
-    if (result.data && result.data.code > 0) {
+    if (result.data.code == 0) {
       return Promise.resolve(result);
     } else {
       Toast.fail(result.data.msg || "操作失败");
@@ -70,3 +73,4 @@ axios.interceptors.response.use((result) => {
 //   // 返回数据前做了什么
 //   return Promise.reject(err)
 })
+export default $axios;

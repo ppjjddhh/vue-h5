@@ -1,4 +1,5 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "./http";
 import qs from "qs";
  
 /**
@@ -16,7 +17,7 @@ const request = {
         return new Promise((resolve, reject) => {
             axios
                 .get(url, {
-                    params: params
+                    params: params,
                 })
                 .then(res => {
                     callback ? resolve(callback(res.data)) : resolve(res.data);

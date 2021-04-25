@@ -1,7 +1,12 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <router-view/>
-  </transition>
+  <!-- vant 开启底部安全区适配 -->
+  <van-number-keyboard safe-area-inset-bottom />
+    <!-- router 动画  -->
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
+    <!--  vant 开启底部安全区适配 -->
+  <van-number-keyboard safe-area-inset-bottom />
 </template>
 
 <style lang="scss">

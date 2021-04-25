@@ -1,4 +1,5 @@
 const path = require("path");
+const TerserPlugin = require('terser-webpack-plugin')
 const config = require("./config.js");
 
 
@@ -8,7 +9,6 @@ function resolve(dir) {
 
 // 代理域名
 const BASIC_HOST_URL = process.env.NODE_ENV === 'production' ? config.baseUrl.test : config.baseUrl.dev;
-console.log(BASIC_HOST_URL);
 
 module.exports = {
         // 环境区分publicPath 路径
@@ -56,4 +56,14 @@ module.exports = {
                 }
             }
         },
+
+        // 生产环境禁止使用debugger、console.log
+        configureWebpack: config => {
+            if (process.env.NODE_ENV === 'production') {
+              config.optimization.minimizer[0].options.terserOptions.compress.warnings = false
+              config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+              config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
+              config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
+            }
+          },
 }

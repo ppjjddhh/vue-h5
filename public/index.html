@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- H5禁用放大缩小 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+    <!-- Android 禁止屏幕旋转 -->
+    <meta name="screen-orientation" content="portrait"> 
+    <!-- 全屏显示 -->
+    <meta name="full-screen" content="yes">
+    <!-- UC应用模式，使用了application这种应用模式后，页面讲默认全屏，禁止长按菜单，禁止收拾， 标准排版，以及强制图片显示。 -->
+    <meta name="browsermode" content="application">    
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">       
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">         
+    
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <script src="./vconsole.min.js"></script>
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+
+  <script type="text/javascript">
+  /**
+      TODO
+     防止iOS 上拉边界下拉出现空白
+   */
+
+    document.body.addEventListener(
+      'touchmove',
+      function(e) {
+        if (e._isScroller) return
+        // 阻止默认事件
+        e.preventDefault()
+      },{
+        passive: false
+      }
+    )
+    
+     /**
+      TODO
+     防止IOS 键盘弹起挡住原来的视图
+   */
+   window.addEventListener('resize', function() {
+      if (
+        document.activeElement.tagName === 'INPUT' ||
+        document.activeElement.tagName === 'TEXTAREA'
+      ) {
+        window.setTimeout(function() {
+          if ('scrollIntoView' in document.activeElement) {
+            document.activeElement.scrollIntoView(false)
+          } else {
+            document.activeElement.scrollIntoViewIfNeeded(false)
+          }
+        }, 0)
+      }
+   })
+    
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</html>

@@ -1,0 +1,35 @@
+$color: #2656ec;
+/*
+    When the height or width of the viewport is changed, they are scaled accordingly. 问题处理
+    “viewpoint” = window size
+    以便在使用时，不用去计算倍数 ， PSD设计稿中的尺寸是多少，我们样式就是多少！！！
+    
+    特例 {
+      font-size: 4vw； 
+    }
+    保险写法： {
+       font-size: 16px;
+       font-size: 4vw;
+    }
+
+    或者 使用js 触发repaint
+    window.onresize = function(){
+      var div = document.getElementById("div");
+      div.style["z-index"] = 1; //显式的触发repaint
+    }
+*/
+@function vw($px) {
+  @return ($px / of viewport height) * 100vw;
+}
+
+@function vh($px) {
+  @return ($px / of viewport width) * 100vh;
+}
+
+@function vmin($px) {
+  @return vw($px) or vh($px);
+}
+
+@function vmax($px) {
+  @return vw($px) or vh($px);
+}
